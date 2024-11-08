@@ -39,7 +39,7 @@
 
 // after lecture 28
 
-import { Component,Input} from "@angular/core";
+import { Component,Input,input,computed,Output, EventEmitter,output} from "@angular/core";
 import { DUMMY_USERS } from "../dummy-users";
 
 
@@ -54,15 +54,43 @@ import { DUMMY_USERS } from "../dummy-users";
 export class userComponent {
 
     title = "first-angular-app";
-    @Input() avatar!: string;
-    @Input() name!: string;
+    // way 1 - input without using signals
+    @Input({required:true}) id!: string;
+    @Input({required:true}) avatar!: string;
+    @Input({ required: true }) name!: string;
+
+
+    // way2 - input using read-only signals
+    // We prefer this apporach as signals help to notify the changes in the data to intended parts of the application
+    // avatar = input.required<string>();
+    // name = input.required<string>();
+
+    
+    // way`1` of using output
+    // @Output() selectedUser = new EventEmitter();
+
+    // way`2` of using output
+    select = output<string>();
+
+
+
+
+    // imagePath =computed(() => 'assets/users' + this.avatar);
+
+
 
     get imagePath() {
         return 'assets/users' + this.avatar;
     };
-
+    
     onSelectedUser() {
-        
+
+        // way1 of using output
+        // this.selectedUser.emit(this.id);
+
+        // way2 of using output
+        this.select.emit(this.id);
+
     }
 
 }
