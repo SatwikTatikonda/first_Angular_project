@@ -39,25 +39,42 @@
 
 // after lecture 28
 
-import { Component,Input,input,computed,Output, EventEmitter,output} from "@angular/core";
+import { Component, Input, input, computed, Output, EventEmitter, output } from "@angular/core";
 import { DUMMY_USERS } from "../dummy-users";
+import { User } from "./user.model";
+import { CardComponent } from "../shared/card/card.component";
 
+// way1 of declaring object type globally
+// type User = { id: string, avatar: string, name: string };
+
+// way2 of declaring object type globally
+// interface User{
+//     id: string, avatar: string, name: string
+// }
+
+// note:type is used for all the types but interface is used for object types
 
 @Component({
     selector: "app-user",
     standalone: true,
     templateUrl: "./user.component.html",
     styleUrl: "./user.component.css",
-    imports: []
+    imports: [CardComponent,CardComponent]
 })  
 
 export class userComponent {
 
+
     title = "first-angular-app";
+
     // way 1 - input without using signals
-    @Input({required:true}) id!: string;
-    @Input({required:true}) avatar!: string;
-    @Input({ required: true }) name!: string;
+    // @Input({required:true}) id!: string;
+    // @Input({required:true}) avatar!: string;
+    // @Input({ required: true }) name!: string;
+
+    // instead of inputting the data seperately we can imoprt the whole object and use it
+    @Input({ required: true }) user!: User;
+    @Input({ required: true }) selected!: boolean;
 
 
     // way2 - input using read-only signals
@@ -77,10 +94,14 @@ export class userComponent {
 
     // imagePath =computed(() => 'assets/users' + this.avatar);
 
+    // when we input string
+    // get imagePath() {
+    //     return 'assets/users' + this.avatar;
+    // };
 
-
+    // when we input object
     get imagePath() {
-        return 'assets/users' + this.avatar;
+        return 'assets/users' + this.user.avatar;
     };
     
     onSelectedUser() {
@@ -89,7 +110,7 @@ export class userComponent {
         // this.selectedUser.emit(this.id);
 
         // way2 of using output
-        this.select.emit(this.id);
+        this.select.emit(this.user.id);
 
     }
 

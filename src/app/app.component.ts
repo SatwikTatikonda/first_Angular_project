@@ -16,7 +16,7 @@ import { TasksComponent } from "./tasks/tasks.component";
 export class AppComponent {
   title = 'first-angular-app';
   users = DUMMY_USERS;
-  selectedUser_id = 'u1';
+  selectedUser_id?:string;
 
   get selectedUser() {
       return this.users.find(user => user.id === this.selectedUser_id);
@@ -26,4 +26,7 @@ export class AppComponent {
     this.selectedUser_id = id;
   }
 
+  onAddTask(id:String){
+    console.log('Add event emitted',id);
+  }
 }
